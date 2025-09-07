@@ -1,6 +1,7 @@
 import {
   createUserWithEmailAndPassword,
   GoogleAuthProvider,
+  sendEmailVerification,
   signInWithPopup,
   updateProfile,
 } from "firebase/auth";
@@ -117,16 +118,16 @@ const SignUp = () => {
 
     // create user using email and password
     createUserWithEmailAndPassword(auth, user.email, user.password)
-      .then((result) => {
+      .then(() => {
         // console.log(result.user);
         // setSuccess("Successfully created!");
 
-        // updation  user name
+        // updating user name
         updateProfile(auth.currentUser, { displayName: user.name });
-
-        if (!result.user.emailVerified) {
-          setError("Verify Your Email Address!");
-        }
+        // send email verificaiton
+        sendEmailVerification(auth.currentUser).then(() =>
+          setError("Email verification sent!")
+        );
       })
       .catch((err) => setError(err.code));
   };
