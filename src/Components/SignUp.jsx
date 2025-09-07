@@ -62,10 +62,33 @@ const SignUp = () => {
     } else {
       const checkedResult = e.target.checked;
       setUser({ ...user, [name]: checkedResult });
+      setError("");
     }
   };
   const handleFormSubmit = (e) => {
     e.preventDefault();
+
+    // name validation
+    if (user.name.length < 3) {
+      setError("Write Your Name");
+      e.target.name.focus();
+      return;
+    }
+
+    // email validation
+    if (!user.email.includes("@")) {
+      setError("Enter Valid Email");
+      e.target.email.focus();
+      return;
+    }
+
+    if (passwordError.length > 0) {
+      setError("Type Password Correctly");
+      e.target.password.focus();
+      return;
+    }
+    setError("");
+
     console.log(user);
   };
   return (
