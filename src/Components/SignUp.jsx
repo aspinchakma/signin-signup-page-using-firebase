@@ -6,6 +6,13 @@ import auth from "./../firebase_init";
 const SignUp = () => {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [user, setUser] = useState({
+    name: "",
+    email: "",
+    password: "",
+    checked: false,
+  });
+
   // signin using google
   const googleProvider = new GoogleAuthProvider();
 
@@ -22,9 +29,29 @@ const SignUp = () => {
         setError(err.code);
       });
   };
-
+  const handleOnChange = (e) => {
+    const { name, value } = e.target;
+    // user password validation
+    if (name === "password2") {
+      const passwordOne = user.password;
+      const passwordTwo = value;
+      // matching two password
+      if (passwordOne !== passwordTwo) {
+        setError("Not Matching");
+      } else {
+        setError("");
+      }
+    }
+    if (name !== "checked") {
+      setUser({ ...user, [name]: value });
+    } else {
+      const checkedResult = e.target.checked;
+      setUser({ ...user, [name]: checkedResult });
+    }
+  };
   const handleFormSubmit = (e) => {
     e.preventDefault();
+    console.log(user);
   };
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 my-10 items-center">
@@ -51,28 +78,41 @@ const SignUp = () => {
         <div className="divider my-9">or</div>
         <form onSubmit={handleFormSubmit}>
           <input
+            onChange={handleOnChange}
             className="w-full  py-3 px-2 mb-2 border-1 border-[#e7e7e8] rounded-lg outline-0"
             type="text"
             placeholder="Full Name"
+            name="name"
           />
           <input
+            onChange={handleOnChange}
             className="w-full  py-3 px-2 mb-2 border-1 border-[#e7e7e8] rounded-lg outline-0"
-            type="text"
+            type="email"
             placeholder="Email"
+            name="email"
           />
           <input
+            onChange={handleOnChange}
             className="w-full  py-3 px-2 mb-2 border-1 border-[#efefef] outline-none"
-            type="text"
+            type="password"
             placeholder="Password"
+            name="password"
           />
           <input
+            onChange={handleOnChange}
             className="w-full  py-3 px-2 mb-2 border-1 border-[#e7e7e8] rounded-lg outline-0"
-            type="text"
+            type="password"
             placeholder="Re-type Password"
+            name="password2"
           />
           <div>
             <label className="label">
-              <input type="checkbox" defaultChecked className="checkbox" />
+              <input
+                onChange={handleOnChange}
+                type="checkbox"
+                name="checked"
+                className="checkbox"
+              />
               Accept Terms And Conditions
             </label>
           </div>
