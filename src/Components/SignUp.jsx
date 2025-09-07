@@ -80,7 +80,7 @@ const SignUp = () => {
   };
   const handleFormSubmit = (e) => {
     e.preventDefault();
-
+    setError("");
     // name validation
     if (user.name.length < 3) {
       setError("Write Your Name");
@@ -98,6 +98,14 @@ const SignUp = () => {
     if (passwordError.length > 0) {
       setError("Type Password Correctly");
       e.target.password.focus();
+      return;
+    }
+    if (user.password < 8) {
+      setError("Please Enter Password");
+      return;
+    }
+    if (!user.checked) {
+      setError("Please agree with our terms and condition");
       return;
     }
 
