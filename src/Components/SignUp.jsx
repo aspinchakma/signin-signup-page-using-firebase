@@ -46,7 +46,20 @@ const SignUp = () => {
         setPasswordError("");
       }
     }
-    // user password validation
+    // user password validation between two password
+    // password one
+    if (name === "password") {
+      const passwordOne = user.password2;
+      const passwordTwo = value;
+      // matching two password
+      if (passwordOne !== passwordTwo) {
+        setPasswordError("Not Matching");
+      } else {
+        setPasswordError("");
+      }
+    }
+
+    // password two
     if (name === "password2") {
       const passwordOne = user.password;
       const passwordTwo = value;
@@ -87,7 +100,6 @@ const SignUp = () => {
       e.target.password.focus();
       return;
     }
-    setError("");
 
     console.log(user);
   };
