@@ -1,4 +1,7 @@
-import { signInWithEmailAndPassword } from "firebase/auth";
+import {
+  sendPasswordResetEmail,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import auth from "../firebase_init";
@@ -44,6 +47,20 @@ const SignIn = () => {
         setError(err.code);
       });
   };
+
+  // reset password
+  const handleForgetPassword = () => {
+    if (!user.email || !user.email.includes("@")) {
+      setError("Write Your Email");
+    } else {
+      setError("");
+      sendPasswordResetEmail(auth, user.email)
+        .then(() => {
+          setSuccess("Password reset email sent!");
+        })
+        .catch((err) => setError(err.code));
+    }
+  };
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 my-10 items-center">
       <div className="lg:w-[70%] mx-auto">
@@ -80,7 +97,12 @@ const SignIn = () => {
               />
               Accept Terms And Conditions
             </label>
-            <p className="text-gray-400 underline">Forget Password</p>
+            <p
+              onClick={handleForgetPassword}
+              className="text-gray-400 underline cursor-pointer"
+            >
+              Forget Password
+            </p>
           </div>
           <input
             className="w-full bg-[#007bff] text-center py-3 rounded-lg text-white mt-2 cursor-pointer"
@@ -88,7 +110,8 @@ const SignIn = () => {
             value="Create New Account"
           />
           <p className="text-center mt-2">
-            Already Have An Account? <NavLink to={`/signin`}>Login</NavLink>
+            Not have an account?{" "}
+            <NavLink to={`/signup`}>Create Account</NavLink>
           </p>
         </form>
         {error && <p className="text-center mt-2 text-red-600">{error}</p>}
