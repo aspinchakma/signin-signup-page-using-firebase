@@ -6,6 +6,7 @@ import auth from "./../firebase_init";
 const SignUp = () => {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [passwordError, setPasswordError] = useState("");
   const [user, setUser] = useState({
     name: "",
     email: "",
@@ -19,6 +20,7 @@ const SignUp = () => {
   const loginWithGoogle = () => {
     setError("");
     setSuccess("");
+    setPasswordError("");
 
     signInWithPopup(auth, googleProvider)
       .then((result) => {
@@ -31,15 +33,28 @@ const SignUp = () => {
   };
   const handleOnChange = (e) => {
     const { name, value } = e.target;
+    if (name === "password") {
+      if (!/(?=.*\d)/.test(value)) {
+        setPasswordError("at least one digit");
+      } else if (!/(?=.*[a-z])/.test(value)) {
+        setPasswordError("at least one lower case");
+      } else if (!/(?=.*[A-Z])/.test(value)) {
+        setPasswordError("at least one upper case");
+      } else if (!/[a-zA-Z0-9]{8,}/.test(value)) {
+        setPasswordError("at least 8 from the mentioned characters");
+      } else {
+        setPasswordError("");
+      }
+    }
     // user password validation
     if (name === "password2") {
       const passwordOne = user.password;
       const passwordTwo = value;
       // matching two password
       if (passwordOne !== passwordTwo) {
-        setError("Not Matching");
+        setPasswordError("Not Matching");
       } else {
-        setError("");
+        setPasswordError("");
       }
     }
     if (name !== "checked") {
@@ -105,6 +120,9 @@ const SignUp = () => {
             placeholder="Re-type Password"
             name="password2"
           />
+          {passwordError && (
+            <p className="text-center mt-2 text-red-600">{passwordError}</p>
+          )}
           <div>
             <label className="label">
               <input
