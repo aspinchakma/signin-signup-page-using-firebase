@@ -1,4 +1,8 @@
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  GoogleAuthProvider,
+  signInWithPopup,
+} from "firebase/auth";
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import auth from "./../firebase_init";
@@ -109,7 +113,10 @@ const SignUp = () => {
       return;
     }
 
-    console.log(user);
+    // create user using email and password
+    createUserWithEmailAndPassword(auth, user.email, user.password)
+      .then((result) => console.log(result.user))
+      .catch((err) => setError(err.code));
   };
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 my-10 items-center">
