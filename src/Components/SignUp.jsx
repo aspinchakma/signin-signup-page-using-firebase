@@ -1,8 +1,30 @@
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { useState } from "react";
 import { NavLink } from "react-router-dom";
+import auth from "./../firebase_init";
 
 const SignUp = () => {
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+  // signin using google
+  const googleProvider = new GoogleAuthProvider();
+
   const loginWithGoogle = () => {
-    console.log("aspin");
+    setError("");
+    setSuccess("");
+
+    signInWithPopup(auth, googleProvider)
+      .then((result) => {
+        console.log(result.user);
+        setSuccess("Your Account Created!");
+      })
+      .catch((err) => {
+        setError(err.code);
+      });
+  };
+
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
   };
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 my-10 items-center">
@@ -27,7 +49,7 @@ const SignUp = () => {
           </button>
         </div>
         <div className="divider my-9">or</div>
-        <form>
+        <form onSubmit={handleFormSubmit}>
           <input
             className="w-full  py-3 px-2 mb-2 border-1 border-[#e7e7e8] rounded-lg outline-0"
             type="text"
@@ -63,6 +85,10 @@ const SignUp = () => {
             Already Have An Account? <NavLink to={`/signin`}>Login</NavLink>
           </p>
         </form>
+        {error && <p className="text-center mt-2 text-red-600">{error}</p>}
+        {success && (
+          <p className="text-center mt-2 text-green-600">{success} </p>
+        )}
       </div>
     </div>
   );
