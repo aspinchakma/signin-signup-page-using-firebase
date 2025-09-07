@@ -2,6 +2,7 @@ import {
   createUserWithEmailAndPassword,
   GoogleAuthProvider,
   signInWithPopup,
+  updateProfile,
 } from "firebase/auth";
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
@@ -85,6 +86,7 @@ const SignUp = () => {
   const handleFormSubmit = (e) => {
     e.preventDefault();
     setError("");
+    setSuccess("");
     // name validation
     if (user.name.length < 3) {
       setError("Write Your Name");
@@ -115,7 +117,17 @@ const SignUp = () => {
 
     // create user using email and password
     createUserWithEmailAndPassword(auth, user.email, user.password)
-      .then((result) => console.log(result.user))
+      .then((result) => {
+        // console.log(result.user);
+        // setSuccess("Successfully created!");
+
+        // updation  user name
+        updateProfile(auth.currentUser, { displayName: user.name });
+
+        if (!result.user.emailVerified) {
+          setError("Verify Your Email Address!");
+        }
+      })
       .catch((err) => setError(err.code));
   };
   return (
