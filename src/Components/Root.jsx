@@ -7,7 +7,7 @@ const Root = () => {
   const [userInfo, setUserInfo] = useState(null);
   return (
     <div className="min-h-screen flex flex-col lg:w-[80%] mx-auto w-[90%]">
-      <Header userInfo={userInfo} />
+      <Header userInfo={userInfo} setUserInfo={setUserInfo} />
       <div className="flex-1">
         <Outlet context={setUserInfo} />
       </div>

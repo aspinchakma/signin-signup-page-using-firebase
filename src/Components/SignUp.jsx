@@ -32,7 +32,7 @@ const SignUp = () => {
 
     signInWithPopup(auth, googleProvider)
       .then((result) => {
-        console.log(result.user);
+        setUserInfo(result.user);
         setSuccess("Your Account Created!");
       })
       .catch((err) => {

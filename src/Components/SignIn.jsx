@@ -73,6 +73,7 @@ const SignIn = () => {
   const handleFaceBookLogin = () => {
     signInWithPopup(auth, facebookProvider).then((result) => {
       setUser(result.user);
+      setUserInfo(result.user);
     });
   };
 
@@ -82,6 +83,7 @@ const SignIn = () => {
     signInWithPopup(auth, googleProvider)
       .then((result) => {
         setUser(result.user);
+        setUserInfo(result.user);
       })
       .catch((err) => {
         console.log(err.code);
@@ -92,6 +94,7 @@ const SignIn = () => {
     signInWithPopup(auth, twitterProvider)
       .then((result) => {
         setUser(result.user);
+        setUserInfo(result.user);
       })
       .catch((err) => {
         console.log(err.code);

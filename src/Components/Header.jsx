@@ -2,7 +2,7 @@ import { signOut } from "firebase/auth";
 import { NavLink } from "react-router-dom";
 import auth from "../firebase_init";
 
-const Header = ({ userInfo }) => {
+const Header = ({ userInfo, setUserInfo }) => {
   console.log(userInfo);
   const links = (
     <>
@@ -20,7 +20,7 @@ const Header = ({ userInfo }) => {
 
   const handleLogOut = () => {
     signOut(auth).then(() => {
-      console.log("sign out successfull");
+      setUserInfo(null);
     });
   };
   return (
