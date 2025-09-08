@@ -8,10 +8,11 @@ import {
 } from "firebase/auth";
 import { useState } from "react";
 import { FaFacebookF, FaGoogle, FaTwitter } from "react-icons/fa";
-import { NavLink } from "react-router-dom";
+import { NavLink, useOutletContext } from "react-router-dom";
 import auth from "../firebase_init";
 
 const SignIn = () => {
+  const setUserInfo = useOutletContext();
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [user, setUser] = useState({
@@ -41,12 +42,14 @@ const SignIn = () => {
       setError("Accept Terms And Conditions");
       return;
     }
-    console.log(user);
+
     signInWithEmailAndPassword(auth, user.email, user.password)
       .then((result) => {
         if (!result.user.emailVerified) {
           setError("verify Your Email");
         }
+        // if user verify their email then show information
+        setUserInfo(result.user);
       })
       .catch((err) => {
         setError(err.code);
@@ -69,7 +72,7 @@ const SignIn = () => {
   const facebookProvider = new FacebookAuthProvider();
   const handleFaceBookLogin = () => {
     signInWithPopup(auth, facebookProvider).then((result) => {
-      console.log(result.user);
+      setUser(result.user);
     });
   };
 
@@ -78,7 +81,7 @@ const SignIn = () => {
   const handleLoginWithGoogle = () => {
     signInWithPopup(auth, googleProvider)
       .then((result) => {
-        console.log(result.user);
+        setUser(result.user);
       })
       .catch((err) => {
         console.log(err.code);
@@ -88,7 +91,7 @@ const SignIn = () => {
   const handleLoginWithTwitter = () => {
     signInWithPopup(auth, twitterProvider)
       .then((result) => {
-        console.log(result.user);
+        setUser(result.user);
       })
       .catch((err) => {
         console.log(err.code);

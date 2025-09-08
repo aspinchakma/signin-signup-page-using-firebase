@@ -1,13 +1,15 @@
+import { useState } from "react";
 import { Outlet } from "react-router-dom";
 import Footer from "./Footer";
 import Header from "./Header";
 
 const Root = () => {
+  const [userInfo, setUserInfo] = useState(null);
   return (
     <div className="min-h-screen flex flex-col lg:w-[80%] mx-auto w-[90%]">
-      <Header />
+      <Header userInfo={userInfo} />
       <div className="flex-1">
-        <Outlet />
+        <Outlet context={setUserInfo} />
       </div>
       <Footer />
     </div>

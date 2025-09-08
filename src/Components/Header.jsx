@@ -2,7 +2,8 @@ import { signOut } from "firebase/auth";
 import { NavLink } from "react-router-dom";
 import auth from "../firebase_init";
 
-const Header = () => {
+const Header = ({ userInfo }) => {
+  console.log(userInfo);
   const links = (
     <>
       <li>
@@ -56,9 +57,17 @@ const Header = () => {
         <ul className="menu menu-horizontal px-1">{links}</ul>
       </div>
       <div className="navbar-end">
-        <a onClick={handleLogOut} className="btn">
-          Logout
-        </a>
+        {userInfo ? (
+          <div>
+            {" "}
+            <p>Welcome, </p>
+            <a onClick={handleLogOut} className="btn">
+              Logout
+            </a>
+          </div>
+        ) : (
+          ""
+        )}
       </div>
     </div>
   );

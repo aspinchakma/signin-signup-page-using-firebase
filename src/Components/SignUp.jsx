@@ -6,7 +6,7 @@ import {
   updateProfile,
 } from "firebase/auth";
 import { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useOutletContext } from "react-router-dom";
 import auth from "./../firebase_init";
 
 const SignUp = () => {
@@ -19,6 +19,8 @@ const SignUp = () => {
     password: "",
     checked: false,
   });
+
+  const setUserInfo = useOutletContext();
 
   // signin using google
   const googleProvider = new GoogleAuthProvider();
@@ -118,12 +120,15 @@ const SignUp = () => {
 
     // create user using email and password
     createUserWithEmailAndPassword(auth, user.email, user.password)
-      .then(() => {
+      .then((result) => {
         // console.log(result.user);
         // setSuccess("Successfully created!");
 
         // updating user name
         updateProfile(auth.currentUser, { displayName: user.name });
+
+        // set user
+        setUserInfo(result.user);
         // send email verificaiton
         sendEmailVerification(auth.currentUser).then(() =>
           setError("Email verification sent!")
