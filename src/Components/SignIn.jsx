@@ -1,10 +1,12 @@
 import {
   FacebookAuthProvider,
+  GoogleAuthProvider,
   sendPasswordResetEmail,
   signInWithEmailAndPassword,
   signInWithPopup,
 } from "firebase/auth";
 import { useState } from "react";
+import { FaFacebookF, FaGoogle, FaTwitter } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 import auth from "../firebase_init";
 
@@ -69,9 +71,21 @@ const SignIn = () => {
       console.log(result.user);
     });
   };
+
+  // login with google
+  const googleProvider = new GoogleAuthProvider();
+  const handleLoginWithGoogle = () => {
+    signInWithPopup(auth, googleProvider)
+      .then((result) => {
+        console.log(result.user);
+      })
+      .catch((err) => {
+        console.log(err.code);
+      });
+  };
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 my-10 items-center">
-      <div className="lg:w-[70%] mx-auto">
+      <div className="lg:w-[80%] mx-auto">
         <h3 className="text-4xl  font-bold">Sign In</h3>
         <p className="text-gray-400 mt-4">
           Lorem ipsum dolor sit amet elit. Sapiente sit aut eos consectetur
@@ -131,9 +145,21 @@ const SignIn = () => {
         <div className="divider w-[100px] mx-auto">or</div>
         <button
           onClick={handleFaceBookLogin}
-          className="bg-blue-700 text-center text-white w-full rounded-lg py-3 cursor-pointer"
+          className="bg-[#3b5998] flex items-center gap-2 justify-center text-white w-full rounded-lg py-3 cursor-pointer"
         >
-          Login With Facebook
+          <FaFacebookF className="text-[18px]" /> Login With Facebook
+        </button>
+        <button
+          onClick={handleFaceBookLogin}
+          className="bg-[#1da1f2] flex items-center gap-2 justify-center text-white w-full rounded-lg py-3 cursor-pointer mt-2"
+        >
+          <FaTwitter className="text-[18px]" /> Login With Twitter
+        </button>
+        <button
+          onClick={handleLoginWithGoogle}
+          className="bg-[#ea4335] flex items-center gap-2 justify-center text-white w-full rounded-lg py-3 cursor-pointer mt-2"
+        >
+          <FaGoogle className="text-[18px]" /> Login With Google
         </button>
       </div>
       <img
