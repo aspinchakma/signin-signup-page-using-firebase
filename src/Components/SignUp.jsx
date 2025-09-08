@@ -132,7 +132,7 @@ const SignUp = () => {
       .catch((err) => setError(err.code));
   };
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 my-10 items-center">
+    <div className="grid grid-cols-1 lg:grid-cols-2 my-10 items-center gap-10">
       <img
         className="max-h-[600px] w-full object-cover"
         src="https://i.ibb.co.com/jX2z6Zn/heroimage.webp"
