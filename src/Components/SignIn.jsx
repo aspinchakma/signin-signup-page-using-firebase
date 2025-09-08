@@ -1,6 +1,8 @@
 import {
+  FacebookAuthProvider,
   sendPasswordResetEmail,
   signInWithEmailAndPassword,
+  signInWithPopup,
 } from "firebase/auth";
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
@@ -61,6 +63,12 @@ const SignIn = () => {
         .catch((err) => setError(err.code));
     }
   };
+  const facebookProvider = new FacebookAuthProvider();
+  const handleFaceBookLogin = () => {
+    signInWithPopup(auth, facebookProvider).then((result) => {
+      console.log(result.user);
+    });
+  };
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 my-10 items-center">
       <div className="lg:w-[70%] mx-auto">
@@ -107,7 +115,7 @@ const SignIn = () => {
           <input
             className="w-full bg-[#007bff] text-center py-3 rounded-lg text-white mt-2 cursor-pointer"
             type="submit"
-            value="Create New Account"
+            value="Login"
           />
           <p className="text-center mt-2">
             Not have an account?{" "}
@@ -118,6 +126,15 @@ const SignIn = () => {
         {success && (
           <p className="text-center mt-2 text-green-600">{success} </p>
         )}
+
+        {/* others login methods */}
+        <div className="divider w-[100px] mx-auto">or</div>
+        <button
+          onClick={handleFaceBookLogin}
+          className="bg-blue-700 text-center text-white w-full rounded-lg py-3 cursor-pointer"
+        >
+          Login With Facebook
+        </button>
       </div>
       <img
         className="max-h-[600px] w-full object-cover"
