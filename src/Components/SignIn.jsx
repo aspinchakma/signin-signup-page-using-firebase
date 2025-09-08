@@ -4,6 +4,7 @@ import {
   sendPasswordResetEmail,
   signInWithEmailAndPassword,
   signInWithPopup,
+  TwitterAuthProvider,
 } from "firebase/auth";
 import { useState } from "react";
 import { FaFacebookF, FaGoogle, FaTwitter } from "react-icons/fa";
@@ -83,6 +84,16 @@ const SignIn = () => {
         console.log(err.code);
       });
   };
+  const twitterProvider = new TwitterAuthProvider();
+  const handleLoginWithTwitter = () => {
+    signInWithPopup(auth, twitterProvider)
+      .then((result) => {
+        console.log(result.user);
+      })
+      .catch((err) => {
+        console.log(err.code);
+      });
+  };
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 my-10 items-center">
       <div className="lg:w-[80%] mx-auto">
@@ -150,7 +161,7 @@ const SignIn = () => {
           <FaFacebookF className="text-[18px]" /> Login With Facebook
         </button>
         <button
-          onClick={handleFaceBookLogin}
+          onClick={handleLoginWithTwitter}
           className="bg-[#1da1f2] flex items-center gap-2 justify-center text-white w-full rounded-lg py-3 cursor-pointer mt-2"
         >
           <FaTwitter className="text-[18px]" /> Login With Twitter
