@@ -9,12 +9,8 @@ const Header = ({ userInfo, setUserInfo }) => {
       <li>
         <NavLink to={``}>Home</NavLink>
       </li>
-      <li>
-        <NavLink to={`/signin`}>Sign In</NavLink>
-      </li>
-      <li>
-        <NavLink to={`/signup`}>Sign Up</NavLink>
-      </li>
+      <li>{!userInfo && <NavLink to={`/signin`}>Sign In</NavLink>}</li>
+      <li>{!userInfo && <NavLink to={`/signup`}>Sign Up</NavLink>}</li>
     </>
   );
 
@@ -58,9 +54,9 @@ const Header = ({ userInfo, setUserInfo }) => {
       </div>
       <div className="navbar-end">
         {userInfo ? (
-          <div>
+          <div className="flex items-center gap-2">
             {" "}
-            <p>Welcome, </p>
+            <p className="font-bold">Welcome, {userInfo?.displayName}</p>
             <a onClick={handleLogOut} className="btn">
               Logout
             </a>
